@@ -11,3 +11,5 @@ db.sync().then(() => {
   // Start the web server
   start();
   }).catch(console.error);
+
+// start function that takes in PORT

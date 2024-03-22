@@ -4,15 +4,22 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET;
 
-const userSchema = (sequelize, DataTypes) => {
-  const model = sequelize.define('User', {
-    username: { type: DataTypes.STRING, allowNull: false, unique: true },
-    password: { type: DataTypes.STRING, allowNull: false },
+const userSchema = (sequelizeDatabase, DataTypes) => {
+  const model = sequelizeDatabase.define('User', {
+    username: { 
+      type: DataTypes.STRING, 
+      allowNull: false, 
+      unique: true 
+    },
+    password: { 
+      type: DataTypes.STRING, 
+      allowNull: false 
+    },
     token: {
       type: DataTypes.VIRTUAL,
       get() {
         return jwt.sign({ username: this.username }, SECRET);
-      },
+      }
     },
   });
 
@@ -34,9 +41,9 @@ const userSchema = (sequelize, DataTypes) => {
   // Bearer AUTH: Validating a token
   model.authenticateBearer = async (token) => {
     try {
-      const parsedToken = jwt.verify(token, SECRET);
+      const payload = jwt.verify(token, SECRET);
       const user = await model.findOne({
-        where: { username: parsedToken.username },
+        where: { username: payload.username },
       });
       return user;
     } catch (e) {

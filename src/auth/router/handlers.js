@@ -2,8 +2,14 @@
 
 const { users } = require('../models/index.js');
 
+// Signup Route -- create a new user
+// Two ways to test this route with httpie
+// echo '{"username":"john","password":"foo"}' | http post :3000/signup
+// http post :3000/signup username=john password=foo
+//IMPORTANT: MUST HAVE TWO TERMINALS RUNNING
 async function handleSignup(req, res, next) {
   try {
+     // save to my database
     let userRecord = await users.create(req.body);
     const output = {
       user: userRecord,
@@ -16,6 +22,10 @@ async function handleSignup(req, res, next) {
   }
 }
 
+
+// Signin Route -- login with username and password
+// test with httpie
+// http post :3000/signin -a john:foo
 async function handleSignin(req, res, next) {
   try {
     const user = {
@@ -29,6 +39,8 @@ async function handleSignin(req, res, next) {
   }
 }
 
+
+// using thunder client us the /users route and in Bearers copy and paste token to that text box. Make sure to switch to a GET request
 async function handleGetUsers(req, res, next) {
   try {
     const userRecords = await users.findAll({});

@@ -12,10 +12,10 @@ const POSTGRES_URI =
 
 const DATABASE_CONFIG = process.env.NODE_ENV === 'production' ? {
   dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false // You might need to set this to true in production for enhanced security
-    }
+    // ssl: {
+    //   require: true,
+    //   rejectUnauthorized: false // You might need to set this to true in production for enhanced security
+    // }
   },
 } : {};
 

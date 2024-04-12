@@ -2,31 +2,22 @@
 
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
-const userSchema = require('./users.js');
+const userSchema = require('./users');
 const todo = require('./todo.js');
 const Collection = require('./collection.js');
 
-
-const POSTGRES_URI =
+const DATABASE_URL =
   process.env.NODE_ENV === 'test' ? 'sqlite::memory' : process.env.DATABASE_URL;
+//const users = userSchema(sequelize, Datatypes);
+const DATABASE_CONFIG =
+  process.env.NODE_ENV === 'production' ? { dialectOptions: {} } : {};
 
-const DATABASE_CONFIG = process.env.NODE_ENV === 'production' ? {
-  dialectOptions: {
-    // ssl: {
-    //   require: true,
-    //   rejectUnauthorized: false // You might need to set this to true in production for enhanced security
-    // }
-  },
-} : {};
-
-// Hooks
-// sequelize allows us to interact with the user model before adding data to the database using the beforeCreate hook. 
-const sequelizeDatabase = new Sequelize(POSTGRES_URI, DATABASE_CONFIG);
-const todoModel = todo(sequelizeDatabase, DataTypes);
+const sequelize = new Sequelize(DATABASE_URL, DATABASE_CONFIG);
+const todoModel = todo(sequelize, DataTypes);
 const todoCollection = new Collection(todoModel);
 
 module.exports = {
-  db: sequelizeDatabase,
-  users: userSchema(sequelizeDatabase, DataTypes),
-  todoCollection
+  db: sequelize,
+  users: userSchema(sequelize, DataTypes),
+  todoCollection,
 };

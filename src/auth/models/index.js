@@ -12,13 +12,16 @@ const POSTGRES_URI =
 
 const DATABASE_CONFIG = process.env.NODE_ENV === 'production' ? {
   dialectOptions: {
-
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // This is important for some hosted databases like Heroku Postgres
+    }
   },
 } : {};
 
 // Hooks
 // sequelize allows us to interact with the user model before adding data to the database using the beforeCreate hook. 
-const sequelizeDatabase = new Sequelize(POSTGRES_URI);
+const sequelizeDatabase = new Sequelize(POSTGRES_URI, DATABASE_CONFIG);
 const todoModel = todo(sequelizeDatabase, DataTypes);
 const todoCollection = new Collection(todoModel);
 

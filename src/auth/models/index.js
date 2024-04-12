@@ -14,6 +14,8 @@ const DATABASE_CONFIG =
     
   } } : {};
 
+// Hooks
+// sequelize allows us to interact with the user model before adding data to the database using the beforeCreate hook. 
 const sequelize = new Sequelize(DATABASE_URL, DATABASE_CONFIG);
 const todoModel = todo(sequelize, DataTypes);
 const todoCollection = new Collection(todoModel);

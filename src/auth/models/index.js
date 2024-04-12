@@ -25,3 +25,5 @@ module.exports = {
   users: userSchema(sequelize, DataTypes),
   todoCollection,
 };
+
+

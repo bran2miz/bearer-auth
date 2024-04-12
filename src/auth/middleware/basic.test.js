@@ -1,6 +1,6 @@
 'use strict';
 
-const { db } = require('../../models');
+const { db } = require('../models');
 const { app } = require('../../server');
 const supertest = require('supertest');
 const mockServer = supertest(app);

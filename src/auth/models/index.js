@@ -10,7 +10,9 @@ const DATABASE_URL =
   process.env.NODE_ENV === 'test' ? 'sqlite::memory' : process.env.DATABASE_URL;
 //const users = userSchema(sequelize, Datatypes);
 const DATABASE_CONFIG =
-  process.env.NODE_ENV === 'production' ? { dialectOptions: {} } : {};
+  process.env.NODE_ENV === 'production' ? { dialectOptions: {
+    
+  } } : {};
 
 const sequelize = new Sequelize(DATABASE_URL, DATABASE_CONFIG);
 const todoModel = todo(sequelize, DataTypes);

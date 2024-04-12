@@ -10,6 +10,11 @@ const Collection = require('./collection.js');
 const POSTGRES_URI =
   process.env.NODE_ENV === 'test' ? 'sqlite::memory' : process.env.DATABASE_URL;
 
+  if (!POSTGRES_URI) {
+    console.error('DATABASE_URL not set');
+    process.exit(1); // Exit the process with an error code
+  }
+
 const DATABASE_CONFIG = process.env.NODE_ENV === 'production' ? {
   dialectOptions: {
     ssl: {
